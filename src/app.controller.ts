@@ -1,12 +1,14 @@
+// src/app.controller.ts
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { KafkaService } from './kafka.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly kafkaService: KafkaService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get('/send-message')
+  async sendMessage(): Promise<string> {
+    await this.kafkaService.sendMessage();
+    return 'Mensagem enviada para o Kafka com sucesso!';
   }
 }
